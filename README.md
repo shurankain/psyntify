@@ -9,10 +9,12 @@ Users can share photos of their plants, discover collections, and optionally tok
 
 ## 📦 Project Structure
 
+```Bash
 psyntify/ 
 ├── frontend/ # React-based frontend (Vite or Next.js) 
 ├── backend/ # Java backend with Spring Boot & PostgreSQL 
 ├── solana/ # Solana smart contract written in Rust (Anchor)
+```
 
 ---
 
