@@ -1,0 +1,109 @@
+#######################################
+# OS-specific files
+#######################################
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+#######################################
+# IDEs and Editors
+#######################################
+
+# IntelliJ
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# VSCode
+.vscode/
+
+# STS / Eclipse
+.project
+.classpath
+.settings/
+.springBeans
+
+#######################################
+# Logs
+#######################################
+*.log
+
+#######################################
+# Build output
+#######################################
+
+# General
+/build/
+/out/
+/bin/
+/target/
+
+# Gradle
+.gradle/
+/**/build/
+!*/src/main/**/build/
+!*/src/test/**/build/
+
+# Rust (solana)
+**/target/
+**/*.rlib
+**/Cargo.lock
+
+# Node (frontend)
+**/node_modules/
+**/dist/
+**/.next/
+**/.nuxt/
+**/.turbo/
+**/.vite/
+
+#######################################
+# Dependency and environment files
+#######################################
+
+.env
+.env.*
+*.local
+*.env
+*.env.*.local
+
+#######################################
+# Test / Coverage
+#######################################
+
+coverage/
+test-results/
+*.lcov
+
+#######################################
+# OS Executables / Compiled files
+#######################################
+*.exe
+*.dll
+*.so
+*.dylib
+*.bin
+*.class
+
+#######################################
+# Python (if ever added for tooling)
+#######################################
+__pycache__/
+*.py[cod]
+*.pyo
+
+#######################################
+# Solana / Anchor
+#######################################
+**/.anchor/
+**/anchor.toml.old
+
+#######################################
+# JetBrains .idea per module (fallbacks)
+#######################################
+
+# Allow people to open a subproject like /backend directly:
+**/.idea/
+**/*.iml
