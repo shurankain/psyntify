@@ -1,7 +1,8 @@
 package com.psyntify.backend.controller;
 
-import com.psyntify.backend.model.Plant;
-import com.psyntify.backend.repository.PlantRepository;
+import com.psyntify.backend.dto.PlantRequestDto;
+import com.psyntify.backend.dto.PlantResponseDto;
+import com.psyntify.backend.service.PlantService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,49 +12,40 @@ import java.util.List;
 @RequestMapping("/plants")
 public class PlantController {
 
-    private final PlantRepository plantRepository;
+    private final PlantService service;
 
-    public PlantController(PlantRepository plantRepository) {
-        this.plantRepository = plantRepository;
+    public PlantController(PlantService service) {
+        this.service = service;
     }
 
     @GetMapping
-    public List<Plant> getAllPlants() {
-        return plantRepository.findAll();
+    public List<PlantResponseDto> getAll() {
+        return service.getAll();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Plant> getPlantById(@PathVariable Long id) {
-        return plantRepository.findById(id)
+    public ResponseEntity<PlantResponseDto> getById(@PathVariable Long id) {
+        return service.getById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping
-    public ResponseEntity<Plant> createPlant(@RequestBody Plant plant) {
-        Plant saved = plantRepository.save(plant);
-        return ResponseEntity.ok(saved);
+    public ResponseEntity<PlantResponseDto> create(@RequestBody PlantRequestDto dto) {
+        return ResponseEntity.ok(service.create(dto));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Plant> updatePlant(@PathVariable Long id, @RequestBody Plant updated) {
-        return plantRepository.findById(id)
-                .map(existing -> {
-                    existing.setName(updated.getName());
-                    existing.setDescription(updated.getDescription());
-                    plantRepository.save(existing);
-                    return ResponseEntity.ok(existing);
-                })
+    public ResponseEntity<PlantResponseDto> update(@PathVariable Long id, @RequestBody PlantRequestDto dto) {
+        return service.update(id, dto)
+                .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletePlant(@PathVariable Long id) {
-        if (plantRepository.existsById(id)) {
-            plantRepository.deleteById(id);
-            return ResponseEntity.noContent().build();
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        return service.delete(id)
+                ? ResponseEntity.noContent().build()
+                : ResponseEntity.notFound().build();
     }
 }
