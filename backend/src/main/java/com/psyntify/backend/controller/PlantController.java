@@ -6,7 +6,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/plants")
@@ -25,14 +24,36 @@ public class PlantController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Plant> getPlantById(@PathVariable Long id) {
-        Optional<Plant> plant = plantRepository.findById(id);
-        return plant.map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.notFound().build());
+        return plantRepository.findById(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping
     public ResponseEntity<Plant> createPlant(@RequestBody Plant plant) {
         Plant saved = plantRepository.save(plant);
         return ResponseEntity.ok(saved);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Plant> updatePlant(@PathVariable Long id, @RequestBody Plant updated) {
+        return plantRepository.findById(id)
+                .map(existing -> {
+                    existing.setName(updated.getName());
+                    existing.setDescription(updated.getDescription());
+                    plantRepository.save(existing);
+                    return ResponseEntity.ok(existing);
+                })
+                .orElse(ResponseEntity.notFound().build());
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deletePlant(@PathVariable Long id) {
+        if (plantRepository.existsById(id)) {
+            plantRepository.deleteById(id);
+            return ResponseEntity.noContent().build();
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 }
