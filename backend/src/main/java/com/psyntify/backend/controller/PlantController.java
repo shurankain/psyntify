@@ -3,6 +3,7 @@ package com.psyntify.backend.controller;
 import com.psyntify.backend.dto.PlantRequestDto;
 import com.psyntify.backend.dto.PlantResponseDto;
 import com.psyntify.backend.service.PlantService;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -38,12 +39,12 @@ public class PlantController {
     }
 
     @PostMapping
-    public ResponseEntity<PlantResponseDto> create(@RequestBody PlantRequestDto dto) {
+    public ResponseEntity<PlantResponseDto> create(@Valid @RequestBody PlantRequestDto dto) {
         return ResponseEntity.ok(service.create(dto));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<PlantResponseDto> update(@PathVariable Long id, @RequestBody PlantRequestDto dto) {
+    public ResponseEntity<PlantResponseDto> update(@PathVariable Long id, @Valid @RequestBody PlantRequestDto dto) {
         return service.update(id, dto)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
