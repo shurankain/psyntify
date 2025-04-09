@@ -24,7 +24,7 @@ const Home = () => {
       <h1 className="text-3xl font-bold mb-6">🌿 Add a Plant</h1>
       <PlantForm onSuccess={loadPlants} />
       <h2 className="text-2xl font-semibold mb-4">🌱 All Plants</h2>
-      {loading ? <p>Loading...</p> : <PlantList plants={plants} />}
+      {loading ? <p>Loading...</p> : <PlantList plants={plants} onDelete={loadPlants} />}
     </div>
   );
 };
