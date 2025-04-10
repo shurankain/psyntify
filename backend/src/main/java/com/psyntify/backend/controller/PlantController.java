@@ -29,8 +29,8 @@ public class PlantController {
     }
 
     @GetMapping
-    public List<PlantResponseDto> getAll() {
-        return service.getAll();
+    public List<PlantResponseDto> getAll(@AuthenticationPrincipal User user) {
+        return service.getAll(user);
     }
 
     @GetMapping("/{id}")

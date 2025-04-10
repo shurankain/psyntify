@@ -23,8 +23,8 @@ public class PlantService {
         this.mapper = mapper;
     }
 
-    public List<PlantResponseDto> getAll() {
-        return repository.findAll().stream()
+    public List<PlantResponseDto> getAll(User user) {
+        return repository.findByOwner(user).stream()
                 .map(mapper::toDto)
                 .collect(Collectors.toList());
     }
