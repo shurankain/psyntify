@@ -4,6 +4,7 @@ import com.psyntify.backend.dto.PlantRequestDto;
 import com.psyntify.backend.dto.PlantResponseDto;
 import com.psyntify.backend.mapper.PlantMapper;
 import com.psyntify.backend.model.Plant;
+import com.psyntify.backend.model.User;
 import com.psyntify.backend.repository.PlantRepository;
 import org.springframework.stereotype.Service;
 
@@ -32,8 +33,8 @@ public class PlantService {
         return repository.findById(id).map(mapper::toDto);
     }
 
-    public PlantResponseDto create(PlantRequestDto dto) {
-        Plant saved = repository.save(mapper.toEntity(dto));
+    public PlantResponseDto create(PlantRequestDto dto, User user) {
+        Plant saved = repository.save(mapper.toEntity(dto, user));
         return mapper.toDto(saved);
     }
 

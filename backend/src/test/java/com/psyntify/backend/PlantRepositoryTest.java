@@ -1,7 +1,9 @@
 package com.psyntify.backend;
 
 import com.psyntify.backend.model.Plant;
+import com.psyntify.backend.model.User;
 import com.psyntify.backend.repository.PlantRepository;
+import com.psyntify.backend.repository.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -9,19 +11,34 @@ import org.springframework.test.context.ActiveProfiles;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 @SpringBootTest
 @ActiveProfiles("test")
 public class PlantRepositoryTest {
 
     @Autowired
-    PlantRepository repo;
+    PlantRepository plantRepository;
+
+    @Autowired
+    UserRepository userRepository;
 
     @Test
     void testSaveAndFetch() {
-        repo.save(new Plant(null, "Test Plant", "Just testing"));
-        List<Plant> all = repo.findAll();
+        // Create and save a real user first
+        User user = new User();
+        user.setUsername("testuser");
+        user.setPassword("encoded-password"); // optional
+        user.setDisplayName("Test User");
+        user = userRepository.save(user); // <-- persist to get ID
+
+        // Create and save a plant with valid owner
+        Plant plant = new Plant(null, "Test Plant", "Just testing", user);
+        plantRepository.save(plant);
+
+        // Fetch and verify
+        List<Plant> all = plantRepository.findAll();
         assertFalse(all.isEmpty());
     }
+
 }

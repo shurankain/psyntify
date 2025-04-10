@@ -2,9 +2,11 @@ package com.psyntify.backend.controller;
 
 import com.psyntify.backend.dto.PlantRequestDto;
 import com.psyntify.backend.dto.PlantResponseDto;
+import com.psyntify.backend.model.User;
 import com.psyntify.backend.service.PlantService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -39,8 +41,9 @@ public class PlantController {
     }
 
     @PostMapping
-    public ResponseEntity<PlantResponseDto> create(@Valid @RequestBody PlantRequestDto dto) {
-        return ResponseEntity.ok(service.create(dto));
+    public ResponseEntity<PlantResponseDto> create(@Valid @RequestBody PlantRequestDto dto,
+                                                   @AuthenticationPrincipal User user) {
+        return ResponseEntity.ok(service.create(dto, user));
     }
 
     @PutMapping("/{id}")
