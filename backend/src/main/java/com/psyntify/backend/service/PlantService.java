@@ -6,6 +6,7 @@ import com.psyntify.backend.mapper.PlantMapper;
 import com.psyntify.backend.model.Plant;
 import com.psyntify.backend.model.User;
 import com.psyntify.backend.repository.PlantRepository;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -38,19 +39,24 @@ public class PlantService {
         return mapper.toDto(saved);
     }
 
-    public Optional<PlantResponseDto> update(Long id, PlantRequestDto dto) {
+    public Optional<PlantResponseDto> update(Long id, PlantRequestDto dto, User user) {
         return repository.findById(id).map(existing -> {
+            if (!existing.getOwner().getId().equals(user.getId())) {
+                throw new AccessDeniedException("You do not own this plant");
+            }
             mapper.updateEntity(existing, dto);
             repository.save(existing);
             return mapper.toDto(existing);
         });
     }
 
-    public boolean delete(Long id) {
-        if (repository.existsById(id)) {
+    public boolean delete(Long id, User user) {
+        return repository.findById(id).map(plant -> {
+            if (!plant.getOwner().getId().equals(user.getId())) {
+                throw new AccessDeniedException("You do not own this plant");
+            }
             repository.deleteById(id);
             return true;
-        }
-        return false;
+        }).orElse(false);
     }
 }

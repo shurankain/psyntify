@@ -47,15 +47,18 @@ public class PlantController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<PlantResponseDto> update(@PathVariable Long id, @Valid @RequestBody PlantRequestDto dto) {
-        return service.update(id, dto)
+    public ResponseEntity<PlantResponseDto> update(@PathVariable Long id,
+                                                   @Valid @RequestBody PlantRequestDto dto,
+                                                   @AuthenticationPrincipal User user) {
+        return service.update(id, dto, user)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id) {
-        return service.delete(id)
+    public ResponseEntity<Void> delete(@PathVariable Long id,
+                                       @AuthenticationPrincipal User user) {
+        return service.delete(id, user)
                 ? ResponseEntity.noContent().build()
                 : ResponseEntity.notFound().build();
     }
