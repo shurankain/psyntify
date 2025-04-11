@@ -1,13 +1,12 @@
-// src/components/LoginForm.tsx
-import { useState } from "react";
+import { useState, FormEvent } from "react";
 import { useAuth } from "../context/AuthContext";
 
 export const LoginForm = () => {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const [username, setUsername] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
   const { login } = useAuth();
 
-  const handleLogin = async (e: React.FormEvent) => {
+  const handleLogin = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const res = await fetch("/auth/login", {
       method: "POST",

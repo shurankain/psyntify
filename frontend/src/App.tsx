@@ -1,9 +1,14 @@
-import { RegisterForm } from "./components/RegisterForm";
-import { LoginForm } from "./components/LoginForm";
+import React from "react";
 import { useAuth } from "./context/AuthContext";
+import { LoginForm } from "./components/LoginForm";
+import { RegisterForm } from "./components/RegisterForm";
 
-export default function App() {
+const App: React.FC = () => {
   const { user, logout } = useAuth();
+
+  const handleLogout = () => {
+    logout();
+  };
 
   return (
     <div className="p-8 max-w-md mx-auto">
@@ -11,7 +16,7 @@ export default function App() {
       {user ? (
         <>
           <p>Welcome, {user.username}!</p>
-          <button className="mt-4 bg-red-500 text-white px-4 py-2 rounded" onClick={logout}>
+          <button className="mt-4 bg-red-500 text-white px-4 py-2 rounded" onClick={handleLogout}>
             Logout
           </button>
         </>
@@ -25,4 +30,6 @@ export default function App() {
       )}
     </div>
   );
-}
+};
+
+export default App;

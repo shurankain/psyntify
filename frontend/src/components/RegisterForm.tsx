@@ -1,10 +1,10 @@
-import { useState } from "react";
+import { useState, FormEvent } from "react";
 
 export const RegisterForm = () => {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const [username, setUsername] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
 
-  const handleRegister = async (e: React.FormEvent) => {
+  const handleRegister = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const res = await fetch("/auth/register", {
       method: "POST",
