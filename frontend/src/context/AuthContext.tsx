@@ -1,4 +1,9 @@
 import { createContext, useContext, useState, ReactNode } from "react";
+import { jwtDecode } from "jwt-decode"
+
+type JwtPayload = {
+  sub: string;
+};
 
 type User = {
   username: string;
@@ -14,8 +19,15 @@ type AuthContextType = {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [user, setUser] = useState<User | null>(null);
-  const [token, setToken] = useState<string | null>(localStorage.getItem("token"));
+  const [token, setToken] = useState<string | null>(() => localStorage.getItem("token"));
+  const [user, setUser] = useState<User | null>(() => {
+    const storedToken = localStorage.getItem("token");
+    if (storedToken) {
+      const decoded = jwtDecode<JwtPayload>(storedToken);
+      return { username: decoded.sub };
+    }
+    return null;
+  });
 
   const login = (token: string, user: User) => {
     localStorage.setItem("token", token);
