@@ -12,7 +12,7 @@ const Home: React.FC = () => {
 
   const loadPlants = async () => {
     try {
-      const data: Plant[] = await fetchWithAuth("/api/plants/my", token!);
+      const data: Plant[] = await fetchWithAuth("/plants", token!);
       setPlants(data);
     } catch (err) {
       console.error("Failed to load plants", err);
@@ -21,9 +21,12 @@ const Home: React.FC = () => {
 
   const handleAddPlant = async (plantData: Omit<Plant, "id" | "ownerId">) => {
     try {
-      const newPlant: Plant = await fetchWithAuth("/api/plants", token!, {
+      const newPlant: Plant = await fetchWithAuth("/plants", token!, {
         method: "POST",
         body: JSON.stringify(plantData),
+        headers: {
+          "Content-Type": "application/json",
+        },
       });
       setPlants((prev) => [...prev, newPlant]);
     } catch (err) {
