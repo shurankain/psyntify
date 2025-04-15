@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { Plant } from "../types";
-import PlantList from "../components/PlantList";
-import PlantForm from "../components/PlantForm";
-import { useAuth } from "../context/AuthContext";
 import { fetchWithAuth } from "../api/fetchWithAuth";
+import PlantForm from "../components/PlantForm";
+import PlantList from "../components/PlantList";
+import { useAuth } from "../context/AuthContext";
+import { Plant } from "../types";
 
 const Home: React.FC = () => {
   const { token } = useAuth();

@@ -1,5 +1,5 @@
-import { createContext, useContext, useState, ReactNode } from "react";
-import { jwtDecode } from "jwt-decode"
+import { jwtDecode } from "jwt-decode";
+import { createContext, ReactNode, useContext, useState } from "react";
 
 type JwtPayload = {
   sub: string;

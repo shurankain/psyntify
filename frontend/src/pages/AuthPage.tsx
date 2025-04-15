@@ -1,10 +1,9 @@
+import { jwtDecode, JwtPayload } from "jwt-decode";
 import { useState } from "react";
-import login_background from "../assets/login_background.png";
-import { FcGoogle } from "react-icons/fc";
 import { FaApple, FaMicrosoft } from "react-icons/fa";
+import { FcGoogle } from "react-icons/fc";
+import login_background from "../assets/login_background.png";
 import { useAuth } from "../context/AuthContext";
-import { jwtDecode } from "jwt-decode";
-import { JwtPayload } from "jwt-decode";
 
 export default function AuthPage() {
   const { login } = useAuth();
