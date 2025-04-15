@@ -23,8 +23,13 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(() => {
     const storedToken = localStorage.getItem("token");
     if (storedToken) {
-      const decoded = jwtDecode<JwtPayload>(storedToken);
-      return { username: decoded.sub };
+      try {
+        const decoded = jwtDecode<JwtPayload>(storedToken);
+        return { username: decoded.sub ?? "unknown" };
+      } catch (err) {
+        console.error("Invalid token in localStorage", err);
+        localStorage.removeItem("token"); // Clean it up
+      }
     }
     return null;
   });
