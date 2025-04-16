@@ -17,7 +17,8 @@ public class PlantMapper {
         return new PlantResponseDto(
                 plant.getId(),
                 plant.getName(),
-                plant.getDescription()
+                plant.getDescription(),
+                plant.getOwner().getId()
         );
     }
 
