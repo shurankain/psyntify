@@ -7,13 +7,13 @@ type PlantFormProps = {
 
 const PlantForm: React.FC<PlantFormProps> = ({ onSubmit }) => {
   const [name, setName] = useState<string>("");
-  const [species, setSpecies] = useState<string>("");
+  const [description, setDescription] = useState<string>("");
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    onSubmit({ name, species });
+    onSubmit({ name, description });
     setName("");
-    setSpecies("");
+    setDescription("");
   };
 
   return (
@@ -28,8 +28,8 @@ const PlantForm: React.FC<PlantFormProps> = ({ onSubmit }) => {
       <input
         className="border p-2 w-full"
         placeholder="Species"
-        value={species}
-        onChange={(e) => setSpecies(e.target.value)}
+        value={description}
+        onChange={(e) => setDescription(e.target.value)}
         required
       />
       <button type="submit" className="bg-green-600 text-white px-4 py-2 rounded">

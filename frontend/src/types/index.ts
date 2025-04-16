@@ -1,6 +1,6 @@
 export type Plant = {
   id: number;
   name: string;
-  species: string;
+  description: string;
   ownerId: number;
 };
