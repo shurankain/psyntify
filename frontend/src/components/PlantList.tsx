@@ -11,7 +11,7 @@ const PlantList: React.FC<PlantListProps> = ({ plants }) => {
       {plants.map((plant) => (
         <div key={plant.id} className="border p-4 rounded shadow-sm">
           <h2 className="text-lg font-semibold">{plant.name}</h2>
-          <p className="text-gray-600 italic">{plant.species}</p>
+          <p className="text-gray-600 italic">{plant.description}</p>
         </div>
       ))}
     </div>
