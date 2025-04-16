@@ -7,7 +7,7 @@ type JwtPayload = {
 };
 
 type User = {
-  id: number;
+  id?: number;
   username: string;
 };
 
@@ -27,7 +27,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     if (storedToken) {
       try {
         const decoded = jwtDecode<JwtPayload>(storedToken);
-        console.log("Decoded Token:", decoded); 
         return { id: decoded.userId, username: decoded.sub ?? "unknown" };
       } catch (err) {
         console.error("Invalid token in localStorage", err);

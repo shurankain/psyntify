@@ -1,6 +1,6 @@
 import React from "react"
-import { Plant } from "../types"
 import { useAuth } from "../context/AuthContext"
+import { Plant } from "../types"
 
 type PlantListProps = {
   plants: Plant[]
@@ -34,26 +34,22 @@ const PlantList: React.FC<PlantListProps> = ({ plants, onDelete }) => {
 
   return (
     <div className="grid grid-cols-1 gap-4">
-      {plants.map((plant) => {
-        console.log("User ID:", user?.id, "Plant Owner ID:", plant.ownerId); // Log user ID and plant owner ID
+      {plants.map((plant) => (
+        <div key={plant.id} className="border p-4 rounded shadow-sm relative">
+          <h2 className="text-lg font-semibold">{plant.name}</h2>
+          <p className="text-gray-600 italic">{plant.description}</p>
 
-        return (
-          <div key={plant.id} className="border p-4 rounded shadow-sm relative">
-            <h2 className="text-lg font-semibold">{plant.name}</h2>
-            <p className="text-gray-600 italic">{plant.description}</p>
-            
-            {user?.id === plant.ownerId && (
-              <button
-                onClick={() => handleDelete(plant.id)}
-                className="absolute top-2 right-2 text-sm text-red-400 hover:text-red-600"
-                title="Delete plant"
-              >
-                🗑️
-              </button>
-            )}
-          </div>
-        );
-      })}
+          {user?.id === plant.ownerId && (
+            <button
+              onClick={() => handleDelete(plant.id)}
+              className="absolute top-2 right-2 text-sm text-red-400 hover:text-red-600"
+              title="Delete plant"
+            >
+              🗑️
+            </button>
+          )}
+        </div>
+      ))}
     </div>
   )
 }
