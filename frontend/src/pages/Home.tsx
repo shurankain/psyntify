@@ -34,6 +34,10 @@ const Home: React.FC = () => {
     }
   };
 
+  const handleDelete = (deletedId: number) => {
+    setPlants((prev) => prev.filter((p) => p.id !== deletedId))
+  }
+
   useEffect(() => {
     if (token) {
       loadPlants();
@@ -51,7 +55,7 @@ const Home: React.FC = () => {
       </button>
       <PlantForm onSubmit={handleAddPlant} />
       <div className="mt-6">
-        <PlantList plants={plants} />
+        <PlantList plants={plants} onDelete={handleDelete}/>
       </div>
     </div>
   );
