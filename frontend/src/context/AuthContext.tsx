@@ -3,9 +3,11 @@ import { createContext, ReactNode, useContext, useState } from "react";
 
 type JwtPayload = {
   sub: string;
+  userId: number;
 };
 
 type User = {
+  id: number;
   username: string;
 };
 
@@ -25,7 +27,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     if (storedToken) {
       try {
         const decoded = jwtDecode<JwtPayload>(storedToken);
-        return { username: decoded.sub ?? "unknown" };
+        console.log("Decoded Token:", decoded); 
+        return { id: decoded.userId, username: decoded.sub ?? "unknown" };
       } catch (err) {
         console.error("Invalid token in localStorage", err);
         localStorage.removeItem("token"); // Clean it up
