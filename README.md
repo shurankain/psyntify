@@ -30,19 +30,48 @@ psyntify/
 
 ## 🚧 Status
 
-This project is under early development.  
-All parts are being built from scratch with open-source and modular design in mind.
+This project is in active early development.  
+The following parts are working or partially implemented:
+
+- [x] Frontend-backend authentication (JWT login/register)
+- [x] User-specific plant creation and deletion
+- [x] Responsive UI with Tailwind and themed login page
+- [x] State-based logic for plant updates without reloading
+- [x] Backend tested via Postman, frontend wired for authenticated fetch
+- [ ] Planned: VPS deployment using Docker & GitHub Actions
+- [ ] Planned: Solana smart contract + wallet integration
 
 ---
 
-## 📋 Roadmap (high-level)
+## 📋 Roadmap (updated)
+
+### 🧩 Core Functionality
 
 - [x] Setup monorepo with frontend, backend, and Solana program
-- [ ] Build basic REST API and database model
-- [ ] Connect frontend to backend
-- [ ] Implement smart contract and minting logic
-- [ ] Add wallet connection and SOL payments
-- [ ] Launch MVP version
+- [x] Implement user login and registration (JWT)
+- [x] Build REST API and basic plant model
+- [x] Connect frontend to backend with auth token
+- [x] Add user-specific plant creation and deletion
+- [ ] Add plant editing and validation logic
+- [ ] Display public plants and user profiles
+
+### 🧪 Web3 & Blockchain
+
+- [ ] Design Solana smart contract for tokenizing plant photos
+- [ ] Add Phantom wallet connection to frontend
+- [ ] Enable SOL payments and NFT minting
+
+### 🐳 Deployment & CI/CD
+
+- [ ] Dockerize backend and frontend
+- [ ] Configure GitHub Actions with self-hosted runner (VPS)
+- [ ] Auto-deploy containers on push to `master`
+
+### 🛠️ Extras (optional)
+
+- [ ] Add AI-based plant recognition (e.g., LeafSnap API or custom model)
+- [ ] Add password recovery flow
+- [ ] Enable media uploads (images)
 
 ---
 
