@@ -34,7 +34,7 @@ describe("create_plant", () => {
       .rpc();
 
     // Fetch the account and check the data
-    const plantAccount = await program.account.plant.fetch(plantPda);
+    const plantAccount = await program.account["plant"].fetch(plantPda);
     assert.equal(plantAccount.owner.toBase58(), provider.wallet.publicKey.toBase58());
     assert.equal(plantAccount.name, name);
     assert.equal(plantAccount.description, description);
