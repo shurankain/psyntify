@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { fetchWithAuth } from "../api/fetchWithAuth";
-import PlantForm from "../components/PlantForm";
+import PlantForm, { PlantFormValues } from "../components/PlantForm";
 import PlantList from "../components/PlantList";
 import { useAuth } from "../context/AuthContext";
 import { Plant } from "../types";
+import { useWallet } from "@solana/wallet-adapter-react";
+import { createPlant } from "../actions/createPlant";
 
 const Home: React.FC = () => {
-  const { token } = useAuth();
+  const { token, logout } = useAuth();
   const [plants, setPlants] = useState<Plant[]>([]);
-  const { logout } = useAuth();
+  const wallet = useWallet();
 
   const loadPlants = async () => {
     try {
@@ -19,24 +21,35 @@ const Home: React.FC = () => {
     }
   };
 
-  const handleAddPlant = async (plantData: Omit<Plant, "id" | "ownerId">) => {
+  const handleAddPlant = async ({ name, description, imageUrl }: PlantFormValues) => {
+    if (!wallet.publicKey || !wallet.signTransaction) {
+      alert("Connect wallet first");
+      return;
+    }
+
     try {
+      // 1. Добавляем в Solana
+      await createPlant(wallet as any, name, description, imageUrl);
+
+      // 2. Дублируем в backend для отображения
       const newPlant: Plant = await fetchWithAuth("/plants", token!, {
         method: "POST",
-        body: JSON.stringify(plantData),
+        body: JSON.stringify({ name, description, imageUrl }),
         headers: {
           "Content-Type": "application/json",
         },
       });
+
       setPlants((prev) => [...prev, newPlant]);
     } catch (err) {
       console.error("Failed to add plant", err);
+      alert("Failed to create plant");
     }
   };
 
   const handleDelete = (deletedId: number) => {
-    setPlants((prev) => prev.filter((p) => p.id !== deletedId))
-  }
+    setPlants((prev) => prev.filter((p) => p.id !== deletedId));
+  };
 
   useEffect(() => {
     if (token) {
@@ -55,7 +68,7 @@ const Home: React.FC = () => {
       </button>
       <PlantForm onSubmit={handleAddPlant} />
       <div className="mt-6">
-        <PlantList plants={plants} onDelete={handleDelete}/>
+        <PlantList plants={plants} onDelete={handleDelete} />
       </div>
     </div>
   );
