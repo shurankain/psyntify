@@ -5,13 +5,20 @@ export const fetchWithAuth = async (
   token: string,
   options: RequestInit = {}
 ) => {
+  const method = options.method ?? "GET";
+
+  const headers: HeadersInit = {
+    ...(options.headers || {}),
+    Authorization: `Bearer ${token}`,
+  };
+
+  if (method !== "GET") {
+    (headers as Record<string, string>)["Content-Type"] = "application/json";
+  }
+
   const res = await fetch(`${backend}${url}`, {
     ...options,
-    headers: {
-      ...(options.headers || {}),
-      Authorization: `Bearer ${token}`,
-      "Content-Type": "application/json",
-    },
+    headers,
   });
 
   const contentType = res.headers.get("content-type");
