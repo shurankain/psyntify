@@ -1,36 +1,36 @@
-import React from "react"
-import { useAuth } from "../context/AuthContext"
-import { Plant } from "../types"
+import React from "react";
+import { useAuth } from "../context/AuthContext";
+import { Plant } from "../types";
 
 type PlantListProps = {
-  plants: Plant[]
-  onDelete?: (id: number) => void // optional callback to refresh list
-}
+  plants: Plant[];
+  onDeleted?: () => void;
+};
 
-const PlantList: React.FC<PlantListProps> = ({ plants, onDelete }) => {
-  const { user, token } = useAuth()
+const PlantList: React.FC<PlantListProps> = ({ plants, onDeleted }) => {
+  const { user, token } = useAuth();
 
   const handleDelete = async (id: number) => {
-    const confirmed = window.confirm("Are you sure you want to delete this plant?")
-    if (!confirmed) return
+    const confirmed = window.confirm("Are you sure you want to delete this plant?");
+    if (!confirmed) return;
 
     try {
       const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/plants/${id}`, {
         method: "DELETE",
         headers: {
-          Authorization: `Bearer ${token}`
-        }
-      })
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
       if (response.ok) {
-        if (onDelete) onDelete(id)
+        onDeleted?.(); // просто сигнал перезагрузки
       } else {
-        console.error("Failed to delete plant")
+        console.error("Failed to delete plant", await response.text());
       }
     } catch (err) {
-      console.error("Error during deletion:", err)
+      console.error("Error during deletion:", err);
     }
-  }
+  };
 
   return (
     <div className="grid grid-cols-1 gap-4">
@@ -51,7 +51,7 @@ const PlantList: React.FC<PlantListProps> = ({ plants, onDelete }) => {
         </div>
       ))}
     </div>
-  )
-}
+  );
+};
 
-export default PlantList
+export default PlantList;

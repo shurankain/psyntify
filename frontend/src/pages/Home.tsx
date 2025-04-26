@@ -46,9 +46,7 @@ const Home: React.FC = () => {
       </button>
       <PlantForm onSubmit={handleAddPlant} />
       <div className="mt-6">
-        <PlantList plants={plants} onDelete={(id) =>
-          setPlants((prev) => prev.filter((p) => p.id !== id))
-        } />
+        <PlantList plants={plants} onDeleted={loadPlants} />
       </div>
     </div>
   );
