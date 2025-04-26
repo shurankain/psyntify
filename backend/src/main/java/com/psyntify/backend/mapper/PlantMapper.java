@@ -3,15 +3,10 @@ package com.psyntify.backend.mapper;
 import com.psyntify.backend.dto.PlantRequestDto;
 import com.psyntify.backend.dto.PlantResponseDto;
 import com.psyntify.backend.model.Plant;
-import com.psyntify.backend.model.User;
 import org.springframework.stereotype.Component;
 
 @Component
 public class PlantMapper {
-
-    public Plant toEntity(PlantRequestDto dto, User owner) {
-        return new Plant(null, dto.getName(), dto.getDescription(), null, null, owner);
-    }
 
     public PlantResponseDto toDto(Plant plant) {
         PlantResponseDto dto = new PlantResponseDto();
@@ -19,6 +14,7 @@ public class PlantMapper {
         dto.setName(plant.getName());
         dto.setDescription(plant.getDescription());
         dto.setHasImage(plant.getImage() != null);
+        dto.setOwnerId(plant.getOwner().getId());
         dto.setImageType(plant.getImageType());
         return dto;
     }
