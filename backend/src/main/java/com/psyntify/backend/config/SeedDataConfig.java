@@ -7,11 +7,7 @@ import com.psyntify.backend.repository.UserRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.security.crypto.password.PasswordEncoder;
-
-import java.io.IOException;
-import java.nio.file.Files;
 
 @Configuration
 public class SeedDataConfig {
@@ -27,19 +23,24 @@ public class SeedDataConfig {
 
                 User savedUser = userRepo.save(demo);
 
-                byte[] ficusImage = loadSeedImage("seed/ficus.jpg");
-                byte[] monsteraImage = loadSeedImage("seed/monstera.jpg");
+                plantRepo.save(new Plant(
+                        null,
+                        "Ficus",
+                        "Loves indirect sunlight",
+                        null,
+                        null,
+                        savedUser
+                ));
 
-                Plant ficus = new Plant(null, "Ficus", "Loves indirect sunlight", ficusImage, "image/jpeg", savedUser);
-                Plant monstera = new Plant(null, "Monstera", "Big dramatic leaves", monsteraImage, "image/jpeg", savedUser);
-
-                plantRepo.save(ficus);
-                plantRepo.save(monstera);
+                plantRepo.save(new Plant(
+                        null,
+                        "Monstera",
+                        "Big dramatic leaves",
+                        null,
+                        null,
+                        savedUser
+                ));
             }
         };
-    }
-
-    private byte[] loadSeedImage(String path) throws IOException {
-        return Files.readAllBytes(new ClassPathResource(path).getFile().toPath());
     }
 }

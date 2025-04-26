@@ -33,7 +33,14 @@ public class PlantRepositoryTest {
         user = userRepository.save(user); // <-- persist to get ID
 
         // Create and save a plant with valid owner
-        Plant plant = new Plant(null, "Test Plant", "Just testing", user);
+        Plant plant = new Plant(
+                null,
+                "Ficus",
+                "Loves indirect sunlight",
+                null,
+                null,
+                user
+        );
         plantRepository.save(plant);
 
         // Fetch and verify
