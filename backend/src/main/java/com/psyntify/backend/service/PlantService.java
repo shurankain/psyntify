@@ -8,7 +8,9 @@ import com.psyntify.backend.model.User;
 import com.psyntify.backend.repository.PlantRepository;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -34,8 +36,22 @@ public class PlantService {
         return repository.findById(id).map(mapper::toDto);
     }
 
-    public PlantResponseDto create(PlantRequestDto dto, User user) {
-        Plant saved = repository.save(mapper.toEntity(dto, user));
+    public PlantResponseDto create(PlantRequestDto dto, MultipartFile file, User user) {
+        Plant plant = new Plant();
+        plant.setName(dto.getName());
+        plant.setDescription(dto.getDescription());
+        plant.setOwner(user);
+
+        if (file != null && !file.isEmpty()) {
+            try {
+                plant.setImage(file.getBytes());
+                plant.setImageType(file.getContentType());
+            } catch (IOException e) {
+                throw new RuntimeException("Failed to read image file", e);
+            }
+        }
+
+        Plant saved = repository.save(plant);
         return mapper.toDto(saved);
     }
 

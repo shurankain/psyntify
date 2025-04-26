@@ -10,20 +10,22 @@ import org.springframework.stereotype.Component;
 public class PlantMapper {
 
     public Plant toEntity(PlantRequestDto dto, User owner) {
-        return new Plant(null, dto.getName(), dto.getDescription(), owner);
+        return new Plant(null, dto.getName(), dto.getDescription(), null, null, owner);
     }
 
     public PlantResponseDto toDto(Plant plant) {
-        return new PlantResponseDto(
-                plant.getId(),
-                plant.getName(),
-                plant.getDescription(),
-                plant.getOwner().getId()
-        );
+        PlantResponseDto dto = new PlantResponseDto();
+        dto.setId(plant.getId());
+        dto.setName(plant.getName());
+        dto.setDescription(plant.getDescription());
+        dto.setHasImage(plant.getImage() != null);
+        dto.setImageType(plant.getImageType());
+        return dto;
     }
 
     public void updateEntity(Plant plant, PlantRequestDto dto) {
         plant.setName(dto.getName());
         plant.setDescription(dto.getDescription());
+        // при обновлении картинку не трогаем — это другой use-case
     }
 }
