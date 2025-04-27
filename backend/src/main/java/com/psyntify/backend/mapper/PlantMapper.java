@@ -5,6 +5,8 @@ import com.psyntify.backend.dto.PlantResponseDto;
 import com.psyntify.backend.model.Plant;
 import org.springframework.stereotype.Component;
 
+import java.util.Base64;
+
 @Component
 public class PlantMapper {
 
@@ -13,9 +15,11 @@ public class PlantMapper {
         dto.setId(plant.getId());
         dto.setName(plant.getName());
         dto.setDescription(plant.getDescription());
-        dto.setHasImage(plant.getImage() != null);
         dto.setOwnerId(plant.getOwner().getId());
         dto.setImageType(plant.getImageType());
+        if (plant.getImage() != null) {
+            dto.setBase64Image(Base64.getEncoder().encodeToString(plant.getImage()));
+        }
         return dto;
     }
 

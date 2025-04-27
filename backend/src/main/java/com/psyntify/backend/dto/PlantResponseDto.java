@@ -12,7 +12,7 @@ public class PlantResponseDto {
     private String name;
     private String description;
     private Long ownerId;
-
-    private boolean hasImage;
     private String imageType;
+    private String base64Image;
 }
+
