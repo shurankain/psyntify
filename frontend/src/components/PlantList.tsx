@@ -23,7 +23,7 @@ const PlantList: React.FC<PlantListProps> = ({ plants, onDeleted }) => {
       });
 
       if (response.ok) {
-        onDeleted?.(); // просто сигнал перезагрузки
+        onDeleted?.();
       } else {
         console.error("Failed to delete plant", await response.text());
       }
@@ -36,6 +36,7 @@ const PlantList: React.FC<PlantListProps> = ({ plants, onDeleted }) => {
     <div className="grid grid-cols-1 gap-4">
       {plants.map((plant) => (
         <div key={plant.id} className="border p-4 rounded shadow-sm relative">
+          <img src={`data:${plant.imageType};base64,${plant.base64Image}`} alt={plant.name} />
           <h2 className="text-lg font-semibold">{plant.name}</h2>
           <p className="text-gray-600 italic">{plant.description}</p>
 

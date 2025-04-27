@@ -3,4 +3,6 @@ export type Plant = {
   name: string;
   description: string;
   ownerId: number;
+  imageType: string;
+  base64Image: string;
 };
