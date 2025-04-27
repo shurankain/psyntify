@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { createPlantApi } from "../actions/createPlantApi";
 import { fetchWithAuth } from "../api/fetchWithAuth";
-import PlantForm from "../components/PlantForm";
-import PlantList from "../components/PlantList";
 import { useAuth } from "../context/AuthContext";
 import { Plant } from "../types";
+import MyPlantsPage from "./MyPlantsPage";
 
 const Home: React.FC = () => {
   const { token, logout } = useAuth();
@@ -36,19 +35,11 @@ const Home: React.FC = () => {
   }, [token]);
 
   return (
-    <div className="p-6 max-w-2xl mx-auto">
-      <h1 className="text-2xl font-bold mb-4">My Plants 🌿</h1>
-      <button
-        onClick={logout}
-        className="text-sm bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 transition"
-      >
-        Logout
-      </button>
-      <PlantForm onSubmit={handleAddPlant} />
-      <div className="mt-6">
-        <PlantList plants={plants} onDeleted={loadPlants} />
-      </div>
-    </div>
+    <MyPlantsPage
+      plants={plants}
+      onAddPlant={handleAddPlant}
+      onLogout={logout}
+    />
   );
 };
 
