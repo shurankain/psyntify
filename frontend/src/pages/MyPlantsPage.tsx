@@ -1,7 +1,7 @@
+import { useState } from "react";
+import AddPlantModal from "../components/AddPlantModal";
 import PlantGrid from "../components/PlantGrid";
 import { Plant } from "../types";
-import AddPlantModal from "../components/AddPlantModal";
-import { useState } from "react";
 
 interface MyPlantsPageProps {
   plants: Plant[];
@@ -11,26 +11,52 @@ interface MyPlantsPageProps {
 
 export default function MyPlantsPage({ plants, onAddPlant, onLogout }: MyPlantsPageProps) {
   const [isModalOpen, setModalOpen] = useState(false);
+  const [isSidebarOpen, setSidebarOpen] = useState(true);
 
   return (
-    <div className="flex h-screen p-6 gap-6">
+    <div className="flex h-screen p-4 gap-4">
+      {/* Левая часть: грид растений */}
       <div className="flex-grow bg-gray-100 rounded-lg overflow-y-auto">
         <PlantGrid plants={plants} />
       </div>
 
-      <div className="w-1/5 bg-gray-200 rounded-lg p-4 flex flex-col items-center gap-4">
+      <div
+        className={`flex flex-col items-center bg-gray-200 rounded-lg transition-all duration-300 ${isSidebarOpen ? "w-48 p-4" : "w-10 p-2"
+          }`}
+      >
         <button
-          onClick={() => setModalOpen(true)}
-          className="bg-green-500 text-white px-6 py-3 rounded-lg hover:bg-green-600"
+          onClick={() => setSidebarOpen(!isSidebarOpen)}
+          className={`flex items-center justify-center transition-all duration-300 text-green-700 bg-green-100 hover:bg-green-200 ${isSidebarOpen
+              ? "w-40 h-12 rounded-lg px-4 justify-between"
+              : "w-12 h-12 rounded-full text-3xl"
+            }`}
+          title={isSidebarOpen ? "Collapse sidebar" : "Expand sidebar"}
         >
-          Add Plant
+          {isSidebarOpen ? (
+            <span className="flex items-center gap-2 text-lg font-medium">
+              Menu <span className="text-2xl">🌼</span>
+            </span>
+          ) : (
+            "🌱"
+          )}
         </button>
-        <button
-          onClick={onLogout}
-          className="bg-red-500 text-white px-6 py-3 rounded-lg hover:bg-red-600"
-        >
-          Logout
-        </button>
+
+        {isSidebarOpen && (
+          <div className="flex flex-col items-center gap-4 w-full mt-6">
+            <button
+              onClick={() => setModalOpen(true)}
+              className="bg-green-500 text-white w-full py-2 rounded-lg hover:bg-green-600 transition"
+            >
+              Add Plant
+            </button>
+            <button
+              onClick={onLogout}
+              className="bg-red-500 text-white w-full py-2 rounded-lg hover:bg-red-600 transition"
+            >
+              Logout
+            </button>
+          </div>
+        )}
       </div>
 
       {isModalOpen && (
