@@ -14,17 +14,20 @@ export default function PlantGrid({ plants }: PlantGridProps) {
   }
 
   return (
-    <div className="grid grid-cols-3 gap-4 p-4">
+    <div className="grid grid-cols-3 gap-2 p-4">
       {plants.map((plant) => (
-        <div key={plant.id} className="bg-white rounded-lg overflow-hidden shadow hover:shadow-lg transition">
+        <div
+          key={plant.id}
+          className="bg-gray-100 flex items-center justify-center overflow-hidden h-60 border border-gray-300"
+        >
           {plant.imageType.startsWith("image/") ? (
             <img
               src={`data:${plant.imageType};base64,${plant.base64Image}`}
               alt={plant.name}
-              className="w-full h-48 object-cover"
+              className="object-cover w-full h-full"
             />
           ) : (
-            <div className="w-full h-48 flex items-center justify-center bg-gray-100 text-gray-600">
+            <div className="flex items-center justify-center w-full h-full text-gray-600 bg-gray-300">
               PDF
             </div>
           )}
