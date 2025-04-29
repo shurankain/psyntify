@@ -18,7 +18,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/plants")
@@ -32,7 +34,10 @@ public class PlantController {
 
     @GetMapping
     public List<PlantResponseDto> getAll(@AuthenticationPrincipal User user) {
-        return service.getAll(user);
+        return service.getAll(user)
+                .stream()
+                .sorted(Comparator.comparing(PlantResponseDto::getId))
+                .collect(Collectors.toList());
     }
 
     @GetMapping("/{id}")
