@@ -2,9 +2,10 @@ import { Plant } from "../types";
 
 interface PlantGridProps {
   plants: Plant[];
+  onPlantClick?: (plant: Plant) => void;
 }
 
-export default function PlantGrid({ plants }: PlantGridProps) {
+export default function PlantGrid({ plants, onPlantClick }: PlantGridProps) {
   if (plants.length === 0) {
     return (
       <div className="flex justify-center items-center h-full text-gray-500">
@@ -18,7 +19,8 @@ export default function PlantGrid({ plants }: PlantGridProps) {
       {plants.map((plant) => (
         <div
           key={plant.id}
-          className="bg-gray-100 flex items-center justify-center overflow-hidden h-60 border border-gray-300"
+          className="bg-gray-100 flex items-center justify-center overflow-hidden h-60 border border-gray-300 cursor-pointer"
+          onClick={() => onPlantClick?.(plant)}
         >
           {plant.imageType.startsWith("image/") ? (
             <img

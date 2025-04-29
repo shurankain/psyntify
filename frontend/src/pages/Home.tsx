@@ -28,6 +28,34 @@ const Home: React.FC = () => {
     }
   };
 
+  const handleUpdatePlant = async (plantId: number, updatedData: { name: string; description: string }) => {
+    try {
+      await fetchWithAuth(`/plants/${plantId}`, token!, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(updatedData),
+      });
+      await loadPlants();
+    } catch (err) {
+      console.error("Failed to update plant", err);
+      alert("Failed to update plant");
+    }
+  };  
+
+  const handleDeletePlant = async (plantId: number) => {
+    try {
+      await fetchWithAuth(`/plants/${plantId}`, token!, {
+        method: "DELETE",
+      });
+      await loadPlants();
+    } catch (err) {
+      console.error("Failed to delete plant", err);
+      alert("Failed to delete plant");
+    }
+  };  
+
   useEffect(() => {
     if (token) {
       loadPlants();
@@ -39,6 +67,8 @@ const Home: React.FC = () => {
       plants={plants}
       onAddPlant={handleAddPlant}
       onLogout={logout}
+      onDeletePlant={handleDeletePlant}
+      onUpdatePlant={handleUpdatePlant}
     />
   );
 };

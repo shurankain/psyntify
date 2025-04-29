@@ -30,7 +30,11 @@ export const fetchWithAuth = async (
     );
   }
 
-  if (contentType?.includes("application/json")) {
+  if (res.status === 204 || !contentType) {
+    return null;
+  }
+
+  if (contentType.includes("application/json")) {
     return res.json();
   } else {
     throw new Error("Unexpected content type: " + contentType);
