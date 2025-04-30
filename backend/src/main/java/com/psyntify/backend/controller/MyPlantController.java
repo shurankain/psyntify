@@ -23,12 +23,11 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/plants")
-public class PlantController {
-
+@RequestMapping("/my/plants")
+public class MyPlantController {
     private final PlantService service;
 
-    public PlantController(PlantService service) {
+    public MyPlantController(PlantService service) {
         this.service = service;
     }
 
@@ -40,13 +39,6 @@ public class PlantController {
                 .collect(Collectors.toList());
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<PlantResponseDto> getById(@PathVariable Long id) {
-        return service.getById(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
-    }
-
     @PostMapping(consumes = "multipart/form-data")
     public ResponseEntity<PlantResponseDto> create(@RequestParam("name") String name,
                                                    @RequestParam("description") String description,
@@ -55,7 +47,6 @@ public class PlantController {
         PlantRequestDto dto = new PlantRequestDto();
         dto.setName(name);
         dto.setDescription(description);
-
         return ResponseEntity.ok(service.create(dto, file, user));
     }
 
