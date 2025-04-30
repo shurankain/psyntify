@@ -6,6 +6,7 @@ import com.psyntify.backend.mapper.PlantMapper;
 import com.psyntify.backend.model.Plant;
 import com.psyntify.backend.model.User;
 import com.psyntify.backend.repository.PlantRepository;
+import com.psyntify.backend.repository.UserRepository;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -20,10 +21,12 @@ public class PlantService {
 
     private final PlantRepository repository;
     private final PlantMapper mapper;
+    private final UserRepository userRepository;
 
-    public PlantService(PlantRepository repository, PlantMapper mapper) {
+    public PlantService(PlantRepository repository, PlantMapper mapper, UserRepository userRepository) {
         this.repository = repository;
         this.mapper = mapper;
+        this.userRepository = userRepository;
     }
 
     public List<PlantResponseDto> getAll(User user) {
@@ -34,6 +37,14 @@ public class PlantService {
 
     public Optional<PlantResponseDto> getById(Long id) {
         return repository.findById(id).map(mapper::toDto);
+    }
+
+    public List<PlantResponseDto> getByUsername(String username) {
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+        return repository.findByOwner(user).stream()
+                .map(mapper::toDto)
+                .collect(Collectors.toList());
     }
 
     public PlantResponseDto create(PlantRequestDto dto, MultipartFile file, User user) {
