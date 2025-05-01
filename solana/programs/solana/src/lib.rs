@@ -1,5 +1,9 @@
 use anchor_lang::prelude::*;
 
+pub const MAX_NAME_LEN: usize = 50;
+pub const MAX_DESC_LEN: usize = 256;
+pub const MAX_URL_LEN: usize = 200;
+
 declare_id!("tc2nMdnvzB5u4DMLffoQa3cYu6Z4mPJ8jkxpHNZCpki");
 
 #[program]
@@ -52,10 +56,5 @@ pub struct Plant {
 }
 
 impl Plant {
-    pub const MAX_SIZE: usize = 
-        32 + // owner
-        4 + 50 + // name (max 50 bytes)
-        4 + 256 + // description (max 256 bytes)
-        4 + 200 + // image_url (max 200 bytes)
-        8; // created_at
+    pub const MAX_SIZE: usize = 32 + 4 + MAX_NAME_LEN + 4 + MAX_DESC_LEN + 4 + MAX_URL_LEN + 8;
 }
