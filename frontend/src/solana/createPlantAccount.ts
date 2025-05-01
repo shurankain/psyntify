@@ -3,7 +3,7 @@ import { derivePlantPda } from "../utils/derivePda";
 import { SystemProgram } from "@solana/web3.js";
 import * as anchor from "@coral-xyz/anchor";
 
-export const createPlant = async (
+export const createPlantOnChain = async (
   wallet: anchor.Wallet,
   name: string,
   description: string,
