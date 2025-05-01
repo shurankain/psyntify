@@ -22,7 +22,7 @@ export default function PlantGrid({ plants, onPlantClick }: PlantGridProps) {
           className="bg-gray-100 flex items-center justify-center overflow-hidden h-60 border border-gray-300 cursor-pointer"
           onClick={() => onPlantClick?.(plant)}
         >
-          {plant.imageType.startsWith("image/") ? (
+          {plant.imageType && plant.imageType.startsWith("image/") ? (
             <img
               src={`data:${plant.imageType};base64,${plant.base64Image}`}
               alt={plant.name}
